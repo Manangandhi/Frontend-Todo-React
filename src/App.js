@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import "./App.css";
+import { TodoService } from "./services/todoService";
+// import TodoItems from "./components/TodoItems";
+import AddTodo from "./components/AddTodo";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const todoList = useSelector((state) => state.todo.todos);
+
+  useEffect(() => {
+    dispatch(TodoService.TodoList());
+  }, [dispatch]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3> My Todo App</h3>
+      <AddTodo />
+      <div>
+        {todoList.map((item) => {
+          return (
+            <div className="">
+              <header key={item.id}>
+                {item.name} - {item.description}
+              </header>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
