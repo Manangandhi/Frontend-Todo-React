@@ -4,6 +4,7 @@ const initialState = {
   todos: [],
   error: "",
   loading: false,
+  deleting: false,
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -50,6 +51,7 @@ export const todoReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+
     // Update
     case todoActionTypes.UPDATE_TODO_REQUEST:
       return {
@@ -75,20 +77,20 @@ export const todoReducer = (state = initialState, action) => {
     case todoActionTypes.DELETE_TODO_REQUEST:
       return {
         ...state,
-        loading: true,
+        deleting: true,
         error: "",
       };
     case todoActionTypes.DELETE_TODO_SUCCESS:
       return {
         ...state,
-        todos: action.payload,
-        loading: false,
+        todos: state.todos.filter((td) => td._id !== action.payload),
+        deleting: false,
         error: "",
       };
     case todoActionTypes.DELETE_TODO_FAILURE:
       return {
         ...state,
-        loading: false,
+        deleting: false,
         error: action.payload,
       };
     default:

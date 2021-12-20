@@ -3,6 +3,9 @@ import {
   addTodoFailure,
   addTodoRequest,
   addTodoSuccess,
+  deleteTodoFailure,
+  deleteTodoRequest,
+  deleteTodoSuccess,
   todoListFailure,
   todoListRequest,
   todoListSuccess,
@@ -35,6 +38,20 @@ export class TodoService {
         .catch((error) => {
           console.log(error);
           dispatch(addTodoFailure(error));
+        });
+    };
+  };
+
+  static DeleteTodo = (id) => {
+    return (dispatch) => {
+      dispatch(deleteTodoRequest());
+      axios
+        .delete(`http://localhost:5000/todos/delete/${id}`)
+        .then((response) => {
+          dispatch(deleteTodoSuccess(id));
+        })
+        .catch((error) => {
+          dispatch(deleteTodoFailure(error));
         });
     };
   };

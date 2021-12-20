@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { TodoService } from "../services/todoService";
+import "../css/AddTodo.css";
 
 const initialFormData = {
   name: "",
@@ -33,33 +34,44 @@ const AddTodo = () => {
   };
 
   return (
-    <div className="row justify-content-center">
-      <div className="col-xl-2">
-        <input
-          type="text"
-          placeholder="Enter Name here..."
-          name="name"
-          value={formData.name}
-          className="form-control mb-2"
-          onChange={onChangeHandler}
-        />
-        <input
-          type="text"
-          placeholder="Enter Description here..."
-          name="description"
-          value={formData.description}
-          className="form-control"
-          onChange={onChangeHandler}
-        />
+    <div className="todo-main-container">
+      <div className="todo-input">
+        <div className="todo-name-input">
+          <label>Name</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            className="input-style"
+            onChange={onChangeHandler}
+          />
+        </div>
 
-        <button
-          disabled={!formData.name || !formData.description}
-          className="btn btn-warning mt-2"
-          onClick={addTodoHandler}
-        >
-          {loading ? <p>Loading...</p> : "Add"}
-        </button>
+        <div className="todo-desc-input">
+          <label>Description</label>
+          <input
+            type="text"
+            name="description"
+            value={formData.description}
+            className="input-style"
+            onChange={onChangeHandler}
+          />
+        </div>
       </div>
+
+      <button
+        disabled={!formData.name || !formData.description || loading}
+        className="add_button"
+        onClick={addTodoHandler}
+      >
+        {loading ? (
+          <>
+            <i style={{ color: "white" }} className="fa fa-spin fa-spinner" />
+          </>
+        ) : (
+          "Add"
+        )}
+      </button>
     </div>
   );
 };
