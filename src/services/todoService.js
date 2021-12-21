@@ -9,6 +9,9 @@ import {
   todoListFailure,
   todoListRequest,
   todoListSuccess,
+  updateTodoFailure,
+  updateTodoRequest,
+  updateTodoSuccess,
 } from "../store/actions/todoActions";
 
 export class TodoService {
@@ -47,11 +50,25 @@ export class TodoService {
       dispatch(deleteTodoRequest());
       axios
         .delete(`http://localhost:5000/todos/delete/${id}`)
-        .then((response) => {
+        .then(() => {
           dispatch(deleteTodoSuccess(id));
         })
         .catch((error) => {
           dispatch(deleteTodoFailure(error));
+        });
+    };
+  };
+
+  static UpdateTodo = (data) => {
+    return (dispatch) => {
+      dispatch(updateTodoRequest());
+      axios
+        .patch(`http://localhost:5000/todos/update`, data)
+        .then((response) => {
+          dispatch(updateTodoSuccess(response.data));
+        })
+        .catch((error) => {
+          dispatch(updateTodoFailure(error));
         });
     };
   };

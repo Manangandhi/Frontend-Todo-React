@@ -5,6 +5,7 @@ const initialState = {
   error: "",
   loading: false,
   deleting: false,
+  updating: false,
 };
 
 export const todoReducer = (state = initialState, action) => {
@@ -56,20 +57,27 @@ export const todoReducer = (state = initialState, action) => {
     case todoActionTypes.UPDATE_TODO_REQUEST:
       return {
         ...state,
-        loading: true,
+        updating: true,
         error: "",
       };
     case todoActionTypes.UPDATE_TODO_SUCCESS:
+      const payload = action.payload;
+      const todos = state.todos.map((t) => {
+        if (t?._id === payload?._id) {
+          return payload;
+        }
+        return t;
+      });
       return {
         ...state,
-        todos: action.payload,
-        loading: false,
+        todos: todos,
+        updating: false,
         error: "",
       };
     case todoActionTypes.UPDATE_TODO_FAILURE:
       return {
         ...state,
-        loading: false,
+        updating: false,
         error: action.payload,
       };
 
