@@ -47,14 +47,14 @@ export class TodoService {
 
   static DeleteTodo = (id) => {
     return (dispatch) => {
-      dispatch(deleteTodoRequest());
+      dispatch(deleteTodoRequest(id));
       axios
         .delete(`http://localhost:5000/todos/delete/${id}`)
         .then(() => {
           dispatch(deleteTodoSuccess(id));
         })
         .catch((error) => {
-          dispatch(deleteTodoFailure(error));
+          dispatch(deleteTodoFailure(id));
         });
     };
   };

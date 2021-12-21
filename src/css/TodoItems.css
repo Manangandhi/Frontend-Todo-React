@@ -69,6 +69,11 @@
   width: 130px;
 }
 
+.complete_todo_btn:hover {
+  background-color: rgb(255, 128, 69);
+  color: black;
+}
+
 .delete_todo_btn:hover {
   background-color: rgb(255, 128, 69);
   color: black;

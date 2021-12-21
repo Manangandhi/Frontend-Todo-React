@@ -64,9 +64,10 @@ export const updateTodoFailure = (data) => {
 };
 
 // Delete
-export const deleteTodoRequest = () => {
+export const deleteTodoRequest = (payload) => {
   return {
     type: todoActionTypes.DELETE_TODO_REQUEST,
+    payload,
   };
 };
 

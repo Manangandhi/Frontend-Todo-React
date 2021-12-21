@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { TodoService } from "../services/todoService";
-import "../css/TodoItems.css";
 import EditTodoDialog from "./EditTodoDialog";
+import "../css/TodoItems.css";
 
 const TodoItems = () => {
   const dispatch = useDispatch();
@@ -44,6 +44,8 @@ const TodoItems = () => {
     );
   };
 
+  console.log(deleting);
+
   return (
     <div className="todo_container">
       {todoList.map((item) => {
@@ -73,6 +75,9 @@ const TodoItems = () => {
             </div>
             <div className="todo_buttons">
               <button
+                style={{
+                  color: item.completed === false ? "#990000" : "",
+                }}
                 onClick={() => handleCompleteBtn(item)}
                 className="complete_todo_btn"
               >
@@ -88,12 +93,12 @@ const TodoItems = () => {
                 type="button"
                 onClick={() => handleDeleteBtn(item)}
                 className="delete_todo_btn"
-                disabled={deleting}
+                disabled={deleting.includes(item._id)}
               >
-                {deleting ? (
+                {deleting.includes(item._id) ? (
                   <>
                     <i
-                      style={{ color: "white" }}
+                      style={{ color: "black" }}
                       className="fa fa-spin fa-spinner"
                     />
                   </>

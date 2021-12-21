@@ -4,7 +4,7 @@ const initialState = {
   todos: [],
   error: "",
   loading: false,
-  deleting: false,
+  deleting: [],
   updating: false,
 };
 
@@ -85,20 +85,20 @@ export const todoReducer = (state = initialState, action) => {
     case todoActionTypes.DELETE_TODO_REQUEST:
       return {
         ...state,
-        deleting: true,
+        deleting: [...state.deleting, action.payload],
         error: "",
       };
     case todoActionTypes.DELETE_TODO_SUCCESS:
       return {
         ...state,
         todos: state.todos.filter((td) => td._id !== action.payload),
-        deleting: false,
+        deleting: state.deleting.filter((del) => del !== action.payload),
         error: "",
       };
     case todoActionTypes.DELETE_TODO_FAILURE:
       return {
         ...state,
-        deleting: false,
+        deleting: state.deleting.filter((del) => del !== action.payload),
         error: action.payload,
       };
     default:

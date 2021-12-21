@@ -9,6 +9,8 @@
   margin-bottom: 1px;
   padding: 15px;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
 }
 
 .todo-input {
