@@ -1,8 +1,8 @@
 import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import "../css/EditTodoDialog.css";
 import { TodoService } from "../services/todoService";
+import "../css/EditTodoDialog.css";
 
 const EditTodoDialog = ({ dialog, handleCloseBtn }) => {
   const [todoData, setTodoData] = useState({
@@ -14,20 +14,20 @@ const EditTodoDialog = ({ dialog, handleCloseBtn }) => {
 
   const updating = useSelector((state) => state.todo.updating);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     e.preventDefault();
     setTodoData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
-  };
+  }, []);
 
-  const handleCloseDialog = () => {
+  const handleCloseDialog = useCallback(() => {
     setTodoData({ updatedDesc: "", updatedName: "" });
     handleCloseBtn();
-  };
+  }, [handleCloseBtn]);
 
-  const handleUpdateTodoBtn = () => {
+  const handleUpdateTodoBtn = useCallback(() => {
     dispatch(
       TodoService.UpdateTodo({
         _id: dialog?.todo?._id,
@@ -36,7 +36,13 @@ const EditTodoDialog = ({ dialog, handleCloseBtn }) => {
       })
     );
     handleCloseDialog();
-  };
+  }, [
+    dialog?.todo?._id,
+    dispatch,
+    handleCloseDialog,
+    todoData?.updatedDesc,
+    todoData?.updatedName,
+  ]);
 
   return (
     <Dialog

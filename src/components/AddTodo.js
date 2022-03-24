@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { TodoService } from "../services/todoService";
@@ -16,14 +16,14 @@ const AddTodo = () => {
 
   const loading = useSelector((state) => state.todo.loading);
 
-  const onChangeHandler = (e) => {
+  const onChangeHandler = useCallback((e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
-  };
+  }, []);
 
-  const addTodoHandler = () => {
+  const addTodoHandler = useCallback(() => {
     dispatch(
       TodoService.AddTodo({
         name: formData.name,
@@ -31,7 +31,7 @@ const AddTodo = () => {
       })
     );
     setFormData(initialFormData);
-  };
+  }, [dispatch, formData.description, formData.name]);
 
   return (
     <div className="todo-main-container">
