@@ -115,10 +115,12 @@ const TodoItems = () => {
                   )}
                 </button>
 
-                <EditTodoDialog
-                  dialog={editDialog}
-                  handleCloseBtn={handleCloseBtn}
-                />
+                {editDialog?.todo?._id && (
+                  <EditTodoDialog
+                    dialog={editDialog}
+                    handleCloseBtn={handleCloseBtn}
+                  />
+                )}
               </div>
             </div>
           );

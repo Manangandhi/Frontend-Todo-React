@@ -6,8 +6,8 @@ import "../css/EditTodoDialog.css";
 
 const EditTodoDialog = ({ dialog, handleCloseBtn }) => {
   const [todoData, setTodoData] = useState({
-    updatedName: "",
-    updatedDesc: "",
+    updatedName: dialog?.todo?.name,
+    updatedDesc: dialog?.todo?.description,
   });
 
   const dispatch = useDispatch();
@@ -63,6 +63,7 @@ const EditTodoDialog = ({ dialog, handleCloseBtn }) => {
         <div className="d-flex flex-column mt-2">
           <label htmlFor="newName">Edit Todo Name :</label>
           <input
+            style={{ width: "300px" }}
             className="form-control form-control-md"
             type="text"
             name="updatedName"
@@ -73,6 +74,7 @@ const EditTodoDialog = ({ dialog, handleCloseBtn }) => {
         <div className="d-flex flex-column mt-2">
           <label htmlFor="newName">Edit Description Name :</label>
           <input
+            style={{ width: "300px" }}
             className="form-control form-control-md"
             type="text"
             name="updatedDesc"

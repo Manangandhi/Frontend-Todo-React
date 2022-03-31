@@ -75,11 +75,7 @@ const AddTodo = () => {
         </div>
       </div>
 
-      <button
-        // disabled={!formData.name || !formData.description || loading}
-        className="add_button"
-        onClick={addTodoHandler}
-      >
+      <button className="add_button" onClick={addTodoHandler}>
         {loading ? (
           <>
             <i style={{ color: "white" }} className="fa fa-spin fa-spinner" />
