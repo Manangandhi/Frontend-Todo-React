@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { TodoService } from "../services/todoService";
 import "../css/AddTodo.css";
+import useValidation from "../hooks/useValidation";
 
 const initialFormData = {
   name: "",
@@ -14,16 +15,29 @@ const AddTodo = () => {
 
   const [formData, setFormData] = useState(initialFormData);
 
+  const [submitted, setSubmitted] = useState(false);
+
+  const { errors, validate } = useValidation(["name", "description"]);
+
   const loading = useSelector((state) => state.todo.loading);
 
-  const onChangeHandler = useCallback((e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  }, []);
+  const onChangeHandler = useCallback(
+    (e) => {
+      setFormData((prev) => ({
+        ...prev,
+        [e.target.name]: e.target.value,
+      }));
 
+      if (submitted) {
+        validate({ ...formData, [e.target.name]: e.target.value });
+      }
+    },
+    [submitted, formData, validate]
+  );
   const addTodoHandler = useCallback(() => {
+    setSubmitted(true);
+    let err = validate(formData);
+    if (err.hasError) return;
     dispatch(
       TodoService.AddTodo({
         name: formData.name,
@@ -31,7 +45,7 @@ const AddTodo = () => {
       })
     );
     setFormData(initialFormData);
-  }, [dispatch, formData.description, formData.name]);
+  }, [dispatch, formData, validate]);
 
   return (
     <div className="todo-main-container">
@@ -45,6 +59,7 @@ const AddTodo = () => {
             className="input-style"
             onChange={onChangeHandler}
           />
+          <span style={{ color: "red" }}>{errors.name}</span>
         </div>
 
         <div className="todo-desc-input">
@@ -56,11 +71,12 @@ const AddTodo = () => {
             className="input-style"
             onChange={onChangeHandler}
           />
+          <span style={{ color: "red" }}>{errors.description}</span>
         </div>
       </div>
 
       <button
-        disabled={!formData.name || !formData.description || loading}
+        // disabled={!formData.name || !formData.description || loading}
         className="add_button"
         onClick={addTodoHandler}
       >
